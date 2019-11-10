@@ -1,5 +1,7 @@
 package com.nathaliareboucas.minhasfinancas.model.repository;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,4 +50,48 @@ public class UsuarioRepositoryTest {
 		// verificação
 		Assertions.assertThat(existe).isFalse();
 	}
+	
+	@Test
+	public void devePersistirUmUsuarioNaBaseDeDados() {
+		// cenário
+		Usuario usuario = criarUsuario();
+		
+		// ação
+		repository.save(usuario);
+		
+		// verificação
+		Assertions.assertThat(usuario.getId()).isNotNull();
+		
+	}
+	
+	@Test
+	public void deveBuscarUmUsuarioPorEmail() {
+		// cenário
+		Usuario usuario = criarUsuario();
+		entityManager.persist(usuario);
+		
+		// ação
+		Optional<Usuario> usuarioPesquisado = repository.findByEmail(usuario.getEmail());
+		
+		// verificação
+		Assertions.assertThat(usuarioPesquisado.isPresent()).isTrue();
+		
+	}
+	
+	@Test
+	public void deveRetornarVazioAoBuscarUsuarioPorEmailQuandoNaoExisteNaBase() {
+		// cenário
+		
+		// ação
+		Optional<Usuario> usuarioPesquisado = repository.findByEmail("usuario@email.com");
+		
+		// verificação
+		Assertions.assertThat(usuarioPesquisado.isPresent()).isFalse();
+		
+	}
+	
+	public static Usuario criarUsuario() {
+		return Usuario.builder().nome("Usuário").email("usuario@email.com").senha("123abc").build();
+	}
+	
 }
