@@ -12,9 +12,11 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -25,6 +27,8 @@ import lombok.ToString;
 @EqualsAndHashCode(of="id")
 @ToString
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Usuario {
 	
 	@Id
