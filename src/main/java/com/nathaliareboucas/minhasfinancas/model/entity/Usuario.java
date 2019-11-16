@@ -12,6 +12,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
+import com.nathaliareboucas.minhasfinancas.dto.UsuarioDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -48,5 +50,9 @@ public class Usuario {
 	@Column(name = "data_cadastro")
 	@Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
 	private LocalDate dataCadastro;
+	
+	public UsuarioDTO toDTO() {
+		return UsuarioDTO.builder().id(this.id).nome(this.nome).email(this.email).senha(this.senha).build();
+	}
 
 }

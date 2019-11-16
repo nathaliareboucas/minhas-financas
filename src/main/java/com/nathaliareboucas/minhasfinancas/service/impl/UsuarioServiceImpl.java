@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.nathaliareboucas.minhasfinancas.exception.AutenticacaoException;
-import com.nathaliareboucas.minhasfinancas.exception.RegraNegocioException;
+import com.nathaliareboucas.minhasfinancas.exceptionHandler.exception.AutenticacaoException;
+import com.nathaliareboucas.minhasfinancas.exceptionHandler.exception.RegraNegocioException;
 import com.nathaliareboucas.minhasfinancas.model.entity.Usuario;
 import com.nathaliareboucas.minhasfinancas.model.repository.UsuarioRepository;
 import com.nathaliareboucas.minhasfinancas.service.UsuarioService;
