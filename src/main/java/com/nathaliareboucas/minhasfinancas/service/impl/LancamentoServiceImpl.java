@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nathaliareboucas.minhasfinancas.dto.LancamentoDTO;
+import com.nathaliareboucas.minhasfinancas.exceptionHandler.exception.RegraNegocioException;
 import com.nathaliareboucas.minhasfinancas.model.entity.Lancamento;
 import com.nathaliareboucas.minhasfinancas.model.enums.StatusLancamento;
 import com.nathaliareboucas.minhasfinancas.model.repository.LancamentoRepository;
@@ -64,6 +65,13 @@ public class LancamentoServiceImpl implements LancamentoService{
 	public void atualizarStatus(LancamentoDTO lancamentoDTO, StatusLancamento status) {
 		lancamentoDTO.setStatus(status.toString());
 		atualizar(lancamentoDTO);
+	}
+
+	@Override
+	public LancamentoDTO buscarPorId(Long id) {
+		return repository.findById(id)
+				.orElseThrow(() -> new RegraNegocioException("Recurso não encontrado."))
+				.toDTO();
 	}
 
 }

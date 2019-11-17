@@ -12,5 +12,6 @@ public interface LancamentoService {
 	void deletar(LancamentoDTO lancamento);
 	List<LancamentoDTO> buscar(LancamentoDTO lancamentoFiltro);
 	void atualizarStatus(LancamentoDTO lancamento, StatusLancamento status);
+	LancamentoDTO buscarPorId(Long id);
 	
 }
