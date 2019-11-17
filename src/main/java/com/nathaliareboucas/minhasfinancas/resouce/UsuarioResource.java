@@ -33,5 +33,10 @@ public class UsuarioResource {
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, usuarioSalvoDTO.getId()));	
 		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioSalvoDTO);
 	}
+	
+	@PostMapping("/autenticar")
+	public ResponseEntity<UsuarioDTO> autenticar(@RequestBody UsuarioDTO usuarioDTO) {
+		return ResponseEntity.ok(service.autenticar(usuarioDTO.getEmail(), usuarioDTO.getSenha()).toDTO());
+	}
 
 }
