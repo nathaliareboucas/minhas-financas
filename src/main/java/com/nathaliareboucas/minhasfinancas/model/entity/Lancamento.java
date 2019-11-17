@@ -17,6 +17,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
+import com.nathaliareboucas.minhasfinancas.dto.LancamentoDTO;
+import com.nathaliareboucas.minhasfinancas.dto.UsuarioDTO;
 import com.nathaliareboucas.minhasfinancas.model.enums.StatusLancamento;
 import com.nathaliareboucas.minhasfinancas.model.enums.TipoLancamento;
 
@@ -67,5 +69,21 @@ public class Lancamento {
 	@Column(name = "data_cadastro")
 	@Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
 	private LocalDate dataCadastro;
+	
+	public LancamentoDTO toDTO() {
+		LancamentoDTO dto = LancamentoDTO.builder()
+				.id(this.id)
+				.descricao(descricao)
+				.mes(mes)
+				.ano(ano)
+				.valor(valor)
+				.dataCadastro(dataCadastro)
+				.build();
+		
+		if (usuario != null)
+			dto.setUsuarioId(usuario.getId());
+			
+		return dto;
+	}
 
 }
