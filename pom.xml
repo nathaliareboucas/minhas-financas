@@ -70,6 +70,7 @@
 		        <configuration>
 		            <profiles>
 		                <profile>dev</profile>
+		                <profile>test</profile>
 		            </profiles>
 		        </configuration>
 		    </plugin>
