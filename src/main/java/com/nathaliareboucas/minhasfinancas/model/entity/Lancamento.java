@@ -2,6 +2,7 @@ package com.nathaliareboucas.minhasfinancas.model.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -18,13 +19,15 @@ import javax.persistence.Table;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import com.nathaliareboucas.minhasfinancas.dto.LancamentoDTO;
-import com.nathaliareboucas.minhasfinancas.dto.UsuarioDTO;
+import com.nathaliareboucas.minhasfinancas.exceptionHandler.exception.RegraNegocioException;
 import com.nathaliareboucas.minhasfinancas.model.enums.StatusLancamento;
 import com.nathaliareboucas.minhasfinancas.model.enums.TipoLancamento;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -35,6 +38,8 @@ import lombok.ToString;
 @EqualsAndHashCode(of="id")
 @ToString
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Lancamento {
 	
 	@Id
@@ -71,19 +76,22 @@ public class Lancamento {
 	private LocalDate dataCadastro;
 	
 	public LancamentoDTO toDTO() {
-		LancamentoDTO dto = LancamentoDTO.builder()
+			
+		if(Objects.isNull(usuario) || Objects.isNull(tipo) || Objects.isNull(status))
+			throw new RegraNegocioException("Usuário, tipo e status do lançamento são obrigatórios");
+		
+		return LancamentoDTO.builder()
 				.id(this.id)
 				.descricao(descricao)
 				.mes(mes)
 				.ano(ano)
 				.valor(valor)
+				.tipo(tipo.toString())
+				.status(status.toString())
+				.usuarioId(usuario.getId())
 				.dataCadastro(dataCadastro)
 				.build();
-		
-		if (usuario != null)
-			dto.setUsuarioId(usuario.getId());
-			
-		return dto;
+	
 	}
 
 }

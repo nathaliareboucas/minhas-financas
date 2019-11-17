@@ -2,7 +2,9 @@ package com.nathaliareboucas.minhasfinancas.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
+import com.nathaliareboucas.minhasfinancas.exceptionHandler.exception.RegraNegocioException;
 import com.nathaliareboucas.minhasfinancas.model.entity.Lancamento;
 import com.nathaliareboucas.minhasfinancas.model.entity.Usuario;
 import com.nathaliareboucas.minhasfinancas.model.enums.StatusLancamento;
@@ -32,7 +34,12 @@ public class LancamentoDTO {
 	private LocalDate dataCadastro;
 	
 	public Lancamento toEntity() {
-		Lancamento entity = Lancamento.builder()
+		
+		if (Objects.isNull(usuarioId) || Objects.isNull(tipo) || Objects.isNull(status))
+			throw new RegraNegocioException("Usuário, tipo e status do lnaçamento são obrigatórios");
+
+		Usuario usuarioLancamento = Usuario.builder().id(usuarioId).build();
+		return Lancamento.builder()
 				.id(id)
 				.descricao(descricao)
 				.mes(mes)
@@ -40,15 +47,9 @@ public class LancamentoDTO {
 				.valor(valor)
 				.tipo(TipoLancamento.valueOf(tipo))
 				.status(StatusLancamento.valueOf(status))
+				.usuario(usuarioLancamento)
 				.dataCadastro(dataCadastro)
 				.build();
-		
-		if (usuarioId != null) {
-			Usuario usuarioEntity = Usuario.builder().id(usuarioId).build();
-			entity.setUsuario(usuarioEntity);
-		}
-		
-		return entity;
 				
 	}
 
