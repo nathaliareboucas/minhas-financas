@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.nathaliareboucas.minhasfinancas.dto.UsuarioDTO;
 import com.nathaliareboucas.minhasfinancas.exceptionHandler.exception.AutenticacaoException;
 import com.nathaliareboucas.minhasfinancas.exceptionHandler.exception.RegraNegocioException;
 import com.nathaliareboucas.minhasfinancas.model.entity.Usuario;
@@ -62,7 +63,7 @@ public class UsuarioServiceTest {
 		Mockito.when(repository.findByEmail(email)).thenReturn(Optional.of(usuario));
 		
 		// ação
-		Usuario usuarioAutenticado = service.autenticar(email, senha);
+		UsuarioDTO usuarioAutenticado = service.autenticar(email, senha);
 		
 		// verificação
 		Assertions.assertThat(usuarioAutenticado).isNotNull();
@@ -100,17 +101,17 @@ public class UsuarioServiceTest {
 	public void deveSalvarUmUsuario() {
 		// cenário
 		Mockito.doNothing().when(service).validarEmail(Mockito.anyString());
-		Usuario usuario = Usuario.builder().id(1l).nome("nome").email("email").senha("senha").build();
-		Mockito.when(repository.save(Mockito.any(Usuario.class))).thenReturn(usuario);
+		UsuarioDTO usuarioDTO = UsuarioDTO.builder().id(1l).nome("nome").email("email").senha("senha").build();
+		Mockito.when(repository.save(Mockito.any(Usuario.class))).thenReturn(usuarioDTO.toEntity());
 		
 		// ação
-		Usuario usuarioSalvo = service.salvar(new Usuario());
+		UsuarioDTO usuarioSalvoDTO = service.salvar(new UsuarioDTO());
 		
 		// verificação
-		Assertions.assertThat(usuarioSalvo).isNotNull();
-		Assertions.assertThat(usuarioSalvo.getNome()).isEqualTo("nome");
-		Assertions.assertThat(usuarioSalvo.getEmail()).isEqualTo("email");
-		Assertions.assertThat(usuarioSalvo.getSenha()).isEqualTo("senha");
+		Assertions.assertThat(usuarioSalvoDTO).isNotNull();
+		Assertions.assertThat(usuarioSalvoDTO.getNome()).isEqualTo("nome");
+		Assertions.assertThat(usuarioSalvoDTO.getEmail()).isEqualTo("email");
+		Assertions.assertThat(usuarioSalvoDTO.getSenha()).isEqualTo("senha");
 		
 	}
 	
@@ -122,7 +123,7 @@ public class UsuarioServiceTest {
 		Mockito.doThrow(RegraNegocioException.class).when(service).validarEmail(email);
 		
 		// ação
-		service.salvar(usuario);
+		service.salvar(usuario.toDTO());
 		
 		// verificação
 		Mockito.verify(repository, Mockito.never()).save(usuario);

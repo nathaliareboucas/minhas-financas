@@ -29,14 +29,14 @@ public class UsuarioResource {
 
 	@PostMapping
 	public ResponseEntity<UsuarioDTO> salvar(@RequestBody UsuarioDTO usuarioDTO, HttpServletResponse response) {	
-		UsuarioDTO usuarioSalvoDTO = service.salvar(usuarioDTO.toEntity()).toDTO(); 
+		UsuarioDTO usuarioSalvoDTO = service.salvar(usuarioDTO); 
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, usuarioSalvoDTO.getId()));	
 		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioSalvoDTO);
 	}
 	
 	@PostMapping("/autenticar")
 	public ResponseEntity<UsuarioDTO> autenticar(@RequestBody UsuarioDTO usuarioDTO) {
-		return ResponseEntity.ok(service.autenticar(usuarioDTO.getEmail(), usuarioDTO.getSenha()).toDTO());
+		return ResponseEntity.ok(service.autenticar(usuarioDTO.getEmail(), usuarioDTO.getSenha()));
 	}
 
 }

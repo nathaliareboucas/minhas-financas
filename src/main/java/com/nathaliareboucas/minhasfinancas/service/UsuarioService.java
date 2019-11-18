@@ -1,14 +1,12 @@
 package com.nathaliareboucas.minhasfinancas.service;
 
-import java.util.Optional;
-
-import com.nathaliareboucas.minhasfinancas.model.entity.Usuario;
+import com.nathaliareboucas.minhasfinancas.dto.UsuarioDTO;
 
 public interface UsuarioService {
 	
-	Usuario autenticar(String email, String senha);	
-	Usuario salvar(Usuario usuario);	
+	UsuarioDTO autenticar(String email, String senha);	
+	UsuarioDTO salvar(UsuarioDTO usuario);	
 	void validarEmail(String email);
-	Optional<Usuario> buscarPorId(Long id);
+	UsuarioDTO buscarPorId(Long id);
 
 }

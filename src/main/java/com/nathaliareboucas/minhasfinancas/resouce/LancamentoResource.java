@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +21,15 @@ import com.nathaliareboucas.minhasfinancas.dto.LancamentoDTO;
 import com.nathaliareboucas.minhasfinancas.event.RecursoCriadoEvent;
 import com.nathaliareboucas.minhasfinancas.service.LancamentoService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("lancamentos")
+@RequiredArgsConstructor
 public class LancamentoResource {
 	
-	private LancamentoService service;
-	@Autowired
-	private ApplicationEventPublisher publisher;
-	
-	public LancamentoResource(LancamentoService service) {
-		super();
-		this.service = service;
-	}
+	private final LancamentoService service;
+	private final ApplicationEventPublisher publisher;
 	
 	@GetMapping
 	public ResponseEntity<List<LancamentoDTO>> buscarPorFiltro(LancamentoDTO lancamentoDTOFiltro) {

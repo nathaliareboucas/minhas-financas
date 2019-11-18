@@ -5,24 +5,23 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nathaliareboucas.minhasfinancas.dto.UsuarioDTO;
 import com.nathaliareboucas.minhasfinancas.exceptionHandler.exception.AutenticacaoException;
 import com.nathaliareboucas.minhasfinancas.exceptionHandler.exception.RegraNegocioException;
 import com.nathaliareboucas.minhasfinancas.model.entity.Usuario;
 import com.nathaliareboucas.minhasfinancas.model.repository.UsuarioRepository;
 import com.nathaliareboucas.minhasfinancas.service.UsuarioService;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService{
 	
-	private UsuarioRepository repository;
-	
-	public UsuarioServiceImpl(UsuarioRepository repository) {
-		super();
-		this.repository = repository;
-	}
+	private final UsuarioRepository repository;
 
 	@Override
-	public Usuario autenticar(String email, String senha) {
+	public UsuarioDTO autenticar(String email, String senha) {
 		Optional<Usuario> usuario = repository.findByEmail(email);
 		
 		if (!usuario.isPresent())
@@ -31,14 +30,14 @@ public class UsuarioServiceImpl implements UsuarioService{
 		if (!usuario.get().getSenha().equals(senha))
 			throw new AutenticacaoException("Senha inválida.");
 		
-		return usuario.get();
+		return usuario.get().toDTO();
 	}
 
 	@Override
 	@Transactional
-	public Usuario salvar(Usuario usuario) {
-		validarEmail(usuario.getEmail());
-		return repository.save(usuario);
+	public UsuarioDTO salvar(UsuarioDTO usuarioDTO) {
+		validarEmail(usuarioDTO.getEmail());
+		return repository.save(usuarioDTO.toEntity()).toDTO();
 	}
 
 	@Override
@@ -50,8 +49,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 	}
 	
 	@Override
-	public Optional<Usuario> buscarPorId(Long id) {
-		return repository.findById(id);
+	public UsuarioDTO buscarPorId(Long id) {
+		return repository.findById(id)
+				.orElseThrow(() -> new RegraNegocioException("Recurso não encontrado."))
+				.toDTO();
 	}
 
 }

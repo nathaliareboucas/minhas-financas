@@ -17,15 +17,13 @@ import com.nathaliareboucas.minhasfinancas.model.enums.StatusLancamento;
 import com.nathaliareboucas.minhasfinancas.model.repository.LancamentoRepository;
 import com.nathaliareboucas.minhasfinancas.service.LancamentoService;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class LancamentoServiceImpl implements LancamentoService{
 	
-	private LancamentoRepository repository;
-	
-	public LancamentoServiceImpl(LancamentoRepository repository) {
-		super();
-		this.repository = repository;
-	}
+	private final LancamentoRepository repository;
 
 	@Override
 	@Transactional
