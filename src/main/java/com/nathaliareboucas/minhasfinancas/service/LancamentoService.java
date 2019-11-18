@@ -9,7 +9,7 @@ public interface LancamentoService {
 	
 	LancamentoDTO salvar(LancamentoDTO lancamento);
 	LancamentoDTO atualizar(LancamentoDTO lancamento);
-	void deletar(LancamentoDTO lancamento);
+	void deletar(Long id);
 	List<LancamentoDTO> buscar(LancamentoDTO lancamentoFiltro);
 	void atualizarStatus(LancamentoDTO lancamento, StatusLancamento status);
 	LancamentoDTO buscarPorId(Long id);

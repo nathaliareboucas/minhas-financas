@@ -43,9 +43,8 @@ public class LancamentoServiceImpl implements LancamentoService{
 
 	@Override
 	@Transactional
-	public void deletar(LancamentoDTO lancamentoDTO) {
-		Objects.requireNonNull(lancamentoDTO.getId());
-		repository.delete(lancamentoDTO.toEntity());
+	public void deletar(Long id) {
+		repository.delete(buscarPorId(id).toEntity());
 	}
 
 	@Override
