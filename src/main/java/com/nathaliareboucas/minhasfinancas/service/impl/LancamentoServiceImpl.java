@@ -1,5 +1,6 @@
 package com.nathaliareboucas.minhasfinancas.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -29,6 +30,7 @@ public class LancamentoServiceImpl implements LancamentoService{
 	@Transactional
 	public LancamentoDTO salvar(LancamentoDTO lancamentoDTO) {
 		lancamentoDTO.setStatus(StatusLancamento.PENDENTE.toString());
+		lancamentoDTO.setDataCadastro(LocalDate.now());
 		return repository.save(lancamentoDTO.toEntity()).toDTO();
 	}
 

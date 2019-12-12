@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import com.nathaliareboucas.minhasfinancas.exceptionHandler.exception.RegraNegocioException;
 import com.nathaliareboucas.minhasfinancas.model.entity.Lancamento;
 import com.nathaliareboucas.minhasfinancas.model.entity.Usuario;
 import com.nathaliareboucas.minhasfinancas.model.enums.StatusLancamento;
@@ -35,21 +34,25 @@ public class LancamentoDTO {
 	
 	public Lancamento toEntity() {
 		
-		if (Objects.isNull(usuarioId) || Objects.isNull(tipo) || Objects.isNull(status))
-			throw new RegraNegocioException("Usuário, tipo e status do lnaçamento são obrigatórios");
-
-		Usuario usuarioLancamento = Usuario.builder().id(usuarioId).build();
-		return Lancamento.builder()
+		Lancamento entity = Lancamento.builder()
 				.id(id)
 				.descricao(descricao)
 				.mes(mes)
 				.ano(ano)
 				.valor(valor)
-				.tipo(TipoLancamento.valueOf(tipo))
-				.status(StatusLancamento.valueOf(status))
-				.usuario(usuarioLancamento)
 				.dataCadastro(dataCadastro)
 				.build();
+		
+		if (Objects.nonNull(usuarioId))
+			entity.setUsuario(Usuario.builder().id(usuarioId).build());
+		
+		if (Objects.nonNull(tipo))
+			entity.setTipo(TipoLancamento.valueOf(tipo));
+		
+		if (Objects.nonNull(status))
+			entity.setStatus(StatusLancamento.valueOf(status));
+		
+		return entity;
 				
 	}
 
