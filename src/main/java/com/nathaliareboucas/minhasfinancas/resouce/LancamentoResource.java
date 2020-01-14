@@ -45,7 +45,7 @@ public class LancamentoResource {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<LancamentoDTO> atualizar(@PathVariable("id") Long id, @RequestBody LancamentoDTO lancamentoDTO) {
-		return ResponseEntity.ok(service.atualizar(lancamentoDTO));
+		return ResponseEntity.ok(service.atualizar(id, lancamentoDTO));
 	}
 	
 	@DeleteMapping("/{id}")

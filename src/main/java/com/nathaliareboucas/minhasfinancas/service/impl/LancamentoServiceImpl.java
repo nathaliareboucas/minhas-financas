@@ -1,10 +1,11 @@
 package com.nathaliareboucas.minhasfinancas.service.impl;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
@@ -15,8 +16,10 @@ import com.nathaliareboucas.minhasfinancas.dto.LancamentoDTO;
 import com.nathaliareboucas.minhasfinancas.exceptionHandler.exception.RegraNegocioException;
 import com.nathaliareboucas.minhasfinancas.model.entity.Lancamento;
 import com.nathaliareboucas.minhasfinancas.model.enums.StatusLancamento;
+import com.nathaliareboucas.minhasfinancas.model.enums.TipoLancamento;
 import com.nathaliareboucas.minhasfinancas.model.repository.LancamentoRepository;
 import com.nathaliareboucas.minhasfinancas.service.LancamentoService;
+import com.nathaliareboucas.minhasfinancas.util.ObjectUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,9 +39,10 @@ public class LancamentoServiceImpl implements LancamentoService{
 
 	@Override
 	@Transactional
-	public LancamentoDTO atualizar(LancamentoDTO lancamentoDTO) {
-		Objects.requireNonNull(lancamentoDTO.getId());
-		return repository.save(lancamentoDTO.toEntity()).toDTO();
+	public LancamentoDTO atualizar(Long lancamentoId, LancamentoDTO lancamentoDTO) {
+		LancamentoDTO lancamentoExistente = buscarPorId(lancamentoId);
+		BeanUtils.copyProperties(lancamentoDTO, lancamentoExistente, ObjectUtil.getNullPropertyNames(lancamentoDTO));
+		return repository.save(lancamentoExistente.toEntity()).toDTO();
 	}
 
 	@Override
@@ -63,7 +67,7 @@ public class LancamentoServiceImpl implements LancamentoService{
 	@Override
 	public void atualizarStatus(LancamentoDTO lancamentoDTO, StatusLancamento status) {
 		lancamentoDTO.setStatus(status.toString());
-		atualizar(lancamentoDTO);
+		atualizar(lancamentoDTO.getId(), lancamentoDTO);
 	}
 
 	@Override
@@ -73,4 +77,9 @@ public class LancamentoServiceImpl implements LancamentoService{
 				.toDTO();
 	}
 
+	@Override
+	public BigDecimal obterSaldoPorTipoLancamentoUsuario(Long usuarioId, TipoLancamento tipoLancamento) {
+		return repository.obterSaldoPorTipoLancamentoUsuario(usuarioId, tipoLancamento);
+	}
+	
 }
