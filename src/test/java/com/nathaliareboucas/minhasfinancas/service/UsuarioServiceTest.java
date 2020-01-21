@@ -27,6 +27,8 @@ public class UsuarioServiceTest {
 	// UsuarioService service;
 	@MockBean
 	UsuarioRepository repository;
+	@MockBean
+	LancamentoService lancamentoService;
 	
 	/* @Before
 	public void setUp() {
