@@ -24,7 +24,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -34,7 +34,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -47,7 +47,7 @@
 
 		<dependency>
 			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>			
+			<artifactId>h2</artifactId>
 		</dependency>
 
 		<dependency>
@@ -60,6 +60,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.9</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -68,11 +76,11 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-		            <profiles>
-		                <profile>dev</profile>
-		                <profile>test</profile>
-		            </profiles>
-		        </configuration>
+					<profiles>
+						<profile>dev</profile>
+						<profile>test</profile>
+					</profiles>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

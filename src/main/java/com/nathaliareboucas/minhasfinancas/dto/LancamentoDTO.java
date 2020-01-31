@@ -2,7 +2,8 @@ package com.nathaliareboucas.minhasfinancas.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import com.nathaliareboucas.minhasfinancas.model.entity.Lancamento;
 import com.nathaliareboucas.minhasfinancas.model.entity.Usuario;
@@ -43,13 +44,13 @@ public class LancamentoDTO {
 				.dataCadastro(dataCadastro)
 				.build();
 		
-		if (Objects.nonNull(usuarioId))
+		if (!ObjectUtils.isEmpty(usuarioId))
 			entity.setUsuario(Usuario.builder().id(usuarioId).build());
 		
-		if (Objects.nonNull(tipo))
+		if (!ObjectUtils.isEmpty(tipo))
 			entity.setTipo(TipoLancamento.valueOf(tipo));
 		
-		if (Objects.nonNull(status))
+		if (!ObjectUtils.isEmpty(status))
 			entity.setStatus(StatusLancamento.valueOf(status));
 		
 		return entity;
