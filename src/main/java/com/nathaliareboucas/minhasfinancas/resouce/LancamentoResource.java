@@ -53,5 +53,10 @@ public class LancamentoResource {
 	public void deletar(@PathVariable("id") Long id) {
 		service.deletar(id);
 	}
-
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<LancamentoDTO> getById(@PathVariable("id") Long id) {
+		return ResponseEntity.ok(service.buscarPorId(id));
+	}
+	
 }
