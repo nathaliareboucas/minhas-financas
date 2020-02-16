@@ -13,6 +13,7 @@ import com.nathaliareboucas.minhasfinancas.dto.UsuarioDTO;
 import com.nathaliareboucas.minhasfinancas.exceptionHandler.exception.AutenticacaoException;
 import com.nathaliareboucas.minhasfinancas.exceptionHandler.exception.RegraNegocioException;
 import com.nathaliareboucas.minhasfinancas.model.entity.Usuario;
+import com.nathaliareboucas.minhasfinancas.model.enums.StatusLancamento;
 import com.nathaliareboucas.minhasfinancas.model.enums.TipoLancamento;
 import com.nathaliareboucas.minhasfinancas.model.repository.UsuarioRepository;
 import com.nathaliareboucas.minhasfinancas.service.LancamentoService;
@@ -81,12 +82,14 @@ public class UsuarioServiceImpl implements UsuarioService{
 		List<LancamentoDTO> lancamentosUsuario = lancamentoService.buscar(LancamentoDTO.builder().usuarioId(usuarioId).build());
 		
 		BigDecimal receita = lancamentosUsuario.stream()
-				.filter(lancamento -> lancamento.getTipo().equals(TipoLancamento.RECEITA.name()))
+				.filter(lancamento -> lancamento.getTipo().equals(TipoLancamento.RECEITA.name())
+						&& lancamento.getStatus().equals(StatusLancamento.EFETIVADO.name()))
 				.map(lanc -> lanc.getValor())
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 		
 		BigDecimal despesa = lancamentosUsuario.stream()
-				.filter(lancamento -> lancamento.getTipo().equals(TipoLancamento.DESPESA.name()))
+				.filter(lancamento -> lancamento.getTipo().equals(TipoLancamento.DESPESA.name())
+						&& lancamento.getStatus().equals(StatusLancamento.EFETIVADO.name()))
 				.map(lanc -> lanc.getValor())
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 
